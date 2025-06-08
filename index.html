@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Birthday Surprise</title>
   <style>
+    /* ✅ Your Existing Styles (unchanged) */
     body {
       margin: 0;
       background: #ffe6f0;
@@ -41,6 +41,7 @@
       border-radius: 10px;
       animation: pulse 1.5s infinite;
       display: none;
+      margin-top:2%;
     }
 
     #surpriseBtn:hover {
@@ -48,39 +49,21 @@
     }
 
     @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.05);
-      }
-
-      100% {
-        transform: scale(1);
-      }
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
 
-    /* Hide sections by default */
-    .section {
-      display: none;
-    }
-
-    /* Show active section */
-    .section.active {
-      display: block;
-    }
+    .section { display: none; }
+    .section.active { display: block; }
 
     #birthdayMessage {
       max-width: 800px;
-      /* margin-top: 30px; */
       color: #c71585;
     }
 
-    #birthdayMessage h1 {
-      font-size: 4em;
-      margin-bottom: 15px;
-    }
+    #birthdayMessage h1 { font-size: 4em; margin-bottom: 15px; }
+    #birthdayMessage h2 { font-size: 45px; margin: 0; padding: 0; }
 
     #birthdayMessage p {
       max-width: 800px;
@@ -98,30 +81,24 @@
     #birthdayMessage p::before {
       content: '';
       position: absolute;
-      top: -10px;
-      left: -10px;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(45deg,
-          transparent,
-          transparent 10px,
-          #eee 10px,
-          #eee 12px);
+      top: -10px; left: -10px;
+      width: 100%; height: 100%;
+      background: repeating-linear-gradient(45deg, transparent, transparent 10px, #eee 10px, #eee 12px);
       z-index: -1;
     }
 
-    #toVideoButton {
+    #toVideoButton, #backToImageBtn {
       font-size: 1.2em;
-      /* margin-top: 20px; */
+      margin-top: 15px;
       cursor: pointer;
       background: #ff4081;
-      border: none !important;
+      border: none;
       color: white;
       border-radius: 10px;
-      padding: 10px 30px;
+      padding: 10px 25px;
     }
 
-    #toVideoButton:hover {
+    #toVideoButton:hover, #backToImageBtn:hover {
       background-color: #e73370;
     }
 
@@ -131,14 +108,9 @@
       margin-top: 30px;
       color: #c71585;
       flex-direction: column;
-
-
     }
 
-    #videoWishes.active {
-      display: flex;
-      /* shown as flex when active */
-    }
+    #videoWishes.active { display: flex; }
 
     #videoWishes h1 {
       font-size: 3em;
@@ -151,9 +123,8 @@
       border-radius: 15px;
       box-shadow: 0 0 20px #ffb6c1cc;
       width: 700px;
-    margin-left: 10%;
-}
-  
+      margin-left: 10%;
+    }
 
     #backButton {
       margin-top: 20px;
@@ -164,7 +135,6 @@
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
       align-self: center;
     }
 
@@ -173,7 +143,7 @@
     }
 
     #popper-container,
-    #balloon-container {
+    #heart-container {
       position: fixed;
       left: 0;
       bottom: 0;
@@ -183,133 +153,71 @@
       z-index: 10;
     }
 
-    .balloon {
+    .heart {
       position: absolute;
-      bottom: -60px;
-      width: 30px;
-      height: 50px;
-      border-radius: 50% 50% 45% 45%;
-      background-color: red;
-      animation: floatUp linear forwards;
+      bottom: -50px;
+      font-size: 30px;
+      color: rgb(193, 75, 128);
+      animation: floatUp 4s linear forwards;
+      opacity: 0.8;
     }
 
     @keyframes floatUp {
-      0% {
-        transform: translateY(0);
-        opacity: 1;
-      }
-
-      100% {
-        transform: translateY(-120vh);
-        opacity: 0;
-      }
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-120vh); opacity: 0; }
     }
 
-    .popper {
-      position: absolute;
-      bottom: 0;
-      width: 12px;
-      height: 18px;
-      opacity: 0.9;
-      animation-timing-function: ease-out;
+    @keyframes slideInFromRight {
+      0% { opacity: 0; transform: translateX(100%); }
+      100% { opacity: 1; transform: translateX(0); }
     }
 
-    .triangle {
-      width: 0;
-      height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-bottom: 16px solid yellow;
-      background: transparent;
+    @keyframes slideInFromLeft {
+      0% { opacity: 0; transform: translateX(-100%); }
+      100% { opacity: 1; transform: translateX(0); }
     }
 
-    .circle {
-      border-radius: 50%;
-      background: orange;
-      width: 14px;
-      height: 14px;
+    .slideInFromRight { animation: slideInFromRight 1s ease forwards; }
+    .slideInFromLeft { animation: slideInFromLeft 1s ease forwards; }
+
+    #birthdayImageSection {
+      position: fixed;
+      inset: 0;
+    background-color: #fff;
+          z-index: 20;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
 
-    .color1 {
-      background: #f94144;
+    #birthdayImageSection.active { display: flex; }
+
+    #birthdayImage {
+      width: auto;
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: 12px;
     }
 
-    .color2 {
-      background: #f3722c;
-    }
-
-    .color3 {
-      background: #f9c74f;
-    }
-
-    .color4 {
-      background: #90be6d;
-    }
-
-    .color5 {
-      background: #577590;
-    }
-
-    .color6 {
-      background: #43aa8b;
-    }
-
-    @keyframes popperFloat {
-      0% {
-        transform: translate(0, 0) rotate(0deg);
-        opacity: 1;
-      }
-
-      100% {
-        transform: translate(var(--x), -110vh) rotate(var(--rot));
-        opacity: 0;
-      }
-    }
-
-    h2 {
-      margin: 0 !important;
-      padding: 0 !important;
-      font-size: 45PX !important;
-    }
-        @keyframes slideInFromRight {
-  0% {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-@keyframes slideInFromLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-/* Add this class to trigger the animation */
-.slideInFromRight {
-  animation: slideInFromRight 1s ease forwards;
-}
-.slideInFromLeft {
-  animation: slideInFromLeft 1s ease forwards;
-}
   </style>
 </head>
-
 <body>
 
   <h1 id="countdownTitle">Countdown to Your Birthday!</h1>
-  <div id="countdown">5</div>
-  <!-- <div id="countdown">⏳</div> -->
+  <div id="countdown">⏳</div>
 
-  <button id="surpriseBtn">🎁 Open Surprise 🎁</button>
+  <!-- 🎈 Hearts instead of Balloons -->
+  <div id="heart-container"></div>
 
-  <!-- Birthday Message Section -->
+  <!-- 🎉 Image Section with Surprise Button -->
+  <div id="birthdayImageSection" class="section">
+    <img id="birthdayImage" src="assets/image.jpeg" alt="Birthday Background" />
+    <button id="surpriseBtn">🎁 Open Surprise</button>
+  </div>
+
+  <!-- 💌 Birthday Message -->
   <div id="birthdayMessage" class="section">
     <h1>🎉 Happy Birthday! 🎉</h1>
     <h2>Kuttuu...❤️</h2>
@@ -322,182 +230,105 @@
       hand. Today is all about you, and I hope it's as amazing as your heart is. Happy birthday, my love.💕😘
     </p>
     <button id="toVideoButton">Tap Me for Magic ✨</button>
+    <button id="backToImageBtn">🔙 Back</button>
   </div>
 
-  <!-- Video Section -->
+  <!-- 🎥 Video Section -->
   <div id="videoWishes" class="section">
     <h1>Your People Have Something to Say💌</h1>
-    <video controls autoplay>
+    <video controls>
       <source src="assets/wish.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
     <button id="backButton">🔙 Back</button>
   </div>
 
-
-  <div id="popper-container"></div>
-  <!-- <div id="balloon-container"></div> -->
-
   <script>
     const countdownEl = document.getElementById("countdown");
     const countdownTitle = document.getElementById("countdownTitle");
     const surpriseBtn = document.getElementById("surpriseBtn");
-    const balloonContainer = document.getElementById("balloon-container");
-    const popperContainer = document.getElementById("popper-container");
-
+    const heartContainer = document.getElementById("heart-container");
     const birthdaySection = document.getElementById("birthdayMessage");
     const videoSection = document.getElementById("videoWishes");
+    const birthdayImageSection = document.getElementById("birthdayImageSection");
+
     const toVideoBtn = document.getElementById("toVideoButton");
     const backBtn = document.getElementById("backButton");
+    const backToImageBtn = document.getElementById("backToImageBtn");
     const birthdayMessageParagraph = birthdaySection.querySelector("p");
 
+    const birthday = new Date(2025, 5, 8, 9, 55, 0);
+    const now = new Date();
+    if (birthday < now) birthday.setFullYear(now.getFullYear() + 1);
 
+    // ❤️ Create Floating Heart
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.innerHTML = "&#10084;";
+      heartContainer.appendChild(heart);
+      setTimeout(() => heart.remove(), 4000);
+    }
 
-    // const birthday = new Date();
-    // birthday.setMonth(4); 
-    // birthday.setDate(31);
-    // birthday.setHours(18, 0, 0, 0);
+    let heartInterval = setInterval(createHeart, 300);
 
-    // const now = new Date();
-    // if (birthday < now) {
-    //   birthday.setFullYear(now.getFullYear() + 1); // set for next year if passed
-    // }
+    // ⏳ Countdown Logic
+    const liveCountdown = setInterval(() => {
+      const now = new Date();
+      const distance = birthday - now;
 
-    // const liveCountdown = setInterval(() => {
-    //   const now = new Date();
-    //   const distance = birthday - now;
+      if (distance <= 0) {
+        clearInterval(liveCountdown);
+        clearInterval(heartInterval);
 
-    //   if (distance <= 0) {
-    //     clearInterval(liveCountdown);
-    //     countdownEl.textContent = "🎁";
-    //     surpriseBtn.style.display = "inline-block";
-    //     return;
-    //   }
+        countdownTitle.style.display = "none";
+        countdownEl.style.display = "none";
 
-    //   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    //   const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    //   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    //   const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    //   countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    // }, 1000);
-
-
-    let countdown = 5;
-    let balloonInterval;
-
-    // Countdown timer
-    const timer = setInterval(() => {
-      countdown--;
-      countdownEl.textContent = countdown;
-
-      if (countdown <= 0) {
-        clearInterval(timer);
-        clearInterval(balloonInterval);
-        countdownEl.textContent = "🎁";
+        birthdayImageSection.classList.add("active");
         surpriseBtn.style.display = "inline-block";
+        return;
       }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     }, 1000);
 
-    // Create balloons during countdown
-    function createBalloon() {
-      const balloon = document.createElement("div");
-      balloon.className = "balloon";
-      balloon.style.left = Math.random() * 100 + "vw";
-      balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
-      balloon.style.animationDuration = (Math.random() * 3 + 4) + "s";
-      balloonContainer.appendChild(balloon);
-      setTimeout(() => balloon.remove(), 7000);
-    }
+    // 🎁 Button Click Actions
+    surpriseBtn.addEventListener("click", () => {
+      birthdayImageSection.classList.remove("active");
+      birthdaySection.classList.add("active");
 
-    balloonInterval = setInterval(createBalloon, 300);
+      birthdayMessageParagraph.classList.remove('slideInFromRight');
+      void birthdayMessageParagraph.offsetWidth;
+      birthdayMessageParagraph.classList.add('slideInFromRight');
+    });
 
-    // Create popper for surprise animation
-    function createPopper() {
-      const popper = document.createElement("div");
-      popper.classList.add("popper");
+    toVideoBtn.addEventListener("click", () => {
+      birthdaySection.classList.remove("active");
+      videoSection.classList.add("active");
+      videoSection.classList.remove("slideInFromLeft");
+      void videoSection.offsetWidth;
+      videoSection.classList.add("slideInFromLeft");
+      backBtn.style.display = "inline-block";
+      toVideoBtn.style.display = "none";
+    });
 
-      const shapes = ['rect', 'triangle', 'circle'];
-      const shape = shapes[Math.floor(Math.random() * shapes.length)];
+    backBtn.addEventListener("click", () => {
+      videoSection.classList.remove("active");
+      birthdaySection.classList.add("active");
+      backBtn.style.display = "none";
+      toVideoBtn.style.display = "inline-block";
+    });
 
-      if (shape === 'triangle') {
-        popper.classList.add("triangle");
-      } else {
-        popper.classList.add("color" + (Math.floor(Math.random() * 6) + 1));
-        if (shape === 'rect') {
-          popper.style.width = '12px';
-          popper.style.height = '18px';
-        } else if (shape === 'circle') {
-          popper.style.width = '14px';
-          popper.style.height = '14px';
-          popper.style.borderRadius = '50%';
-        }
-      }
-
-      popper.style.left = Math.random() * window.innerWidth + 'px';
-      popper.style.setProperty('--x', (Math.random() * 200 - 100) + 'px');
-      popper.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
-      popper.style.animation = `popperFloat ${(3 + Math.random() * 3).toFixed(2)}s forwards`;
-
-      return popper;
-    }
-
-    function startPoppers() {
-      let count = 0;
-      const maxPoppers = 100;
-      const interval = setInterval(() => {
-        if (count >= maxPoppers) {
-          clearInterval(interval);
-          return;
-        }
-        const popper = createPopper();
-        popperContainer.appendChild(popper);
-        popper.addEventListener("animationend", () => popper.remove());
-        count++;
-      }, 50);
-    }
-
-    
-
-  // 🎁 Surprise button click
-  surpriseBtn.addEventListener("click", () => {
-    countdownTitle.style.display = 'none';
-    countdownEl.style.display = 'none';
-    surpriseBtn.style.display = 'none';
-
-    birthdaySection.classList.add("active");
-
-    birthdayMessageParagraph.classList.remove('slideInFromRight');
-    void birthdayMessageParagraph.offsetWidth;
-    birthdayMessageParagraph.classList.add('slideInFromRight');
-
-    startPoppers();
-  });
-
-  // 🎥 Show video wishes
-  toVideoBtn.addEventListener("click", () => {
-    birthdaySection.classList.remove("active");
-
-    videoSection.classList.remove("slideInFromLeft");
-    void videoSection.offsetWidth;
-    videoSection.classList.add("active", "slideInFromLeft");
-
-    backBtn.style.display = "inline-block";
-    toVideoBtn.style.display = "none";
-  });
-
-  // 🔙 Back to birthday message
-  backBtn.addEventListener("click", () => {
-    videoSection.classList.remove("active");
-    birthdaySection.classList.add("active");
-
-    videoSection.classList.remove("slideInFromLeft");
-
-    backBtn.style.display = "none";
-    toVideoBtn.style.display = "inline-block";
-  });
+    backToImageBtn.addEventListener("click", () => {
+      birthdaySection.classList.remove("active");
+      birthdayImageSection.classList.add("active");
+    });
   </script>
-
 </body>
-
 </html>
