@@ -119,7 +119,7 @@
 
     video {
       max-width: 100%;
-      height: 400px;
+      height: 394px;
       border-radius: 15px;
       box-shadow: 0 0 20px #ffb6c1cc;
       width: 700px;
@@ -183,7 +183,7 @@
     #birthdayImageSection {
       position: fixed;
       inset: 0;
-    background-color: #fff;
+background: linear-gradient(to right, red, #ff8080, white);
           z-index: 20;
       display: none;
       flex-direction: column;
@@ -257,7 +257,7 @@
     const backToImageBtn = document.getElementById("backToImageBtn");
     const birthdayMessageParagraph = birthdaySection.querySelector("p");
 
-    const birthday = new Date(2025, 5, 9, 19, 53, 0);
+    const birthday = new Date(2025, 5, 12, 0, 0, 0);
     const now = new Date();
     if (birthday < now) birthday.setFullYear(now.getFullYear() + 1);
 
